@@ -105,8 +105,9 @@ class RaceResults:
         regist(self.results)
                                                             
     def get_results_pd(self):
-        return pd.DataFrame(get_results(), columns=COLUMN_LIST)
-
+        df = pd.DataFrame(get_results(), columns=COLUMN_LIST)
+        df['RACE_DATE'] = pd.to_datetime(df['RACE_DATE'])
+        return df
 
 # In[3]:
 
@@ -138,20 +139,3 @@ def get_results():
     results = cursor.fetchall()
     conn.close()
     return results
-
-
-# In[4]:
-
-
-if __name__ == "__main__":
-    r = RaceResults()
-    r.download("2019-10-01","2019-12-31")
-    r.load_and_regist()
-    a = r.get_results_pd()
-
-
-# In[ ]:
-
-
-
-
